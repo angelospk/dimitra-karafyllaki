@@ -14,7 +14,7 @@
   <meta property="og:locale" content="el_GR">
   <meta property="og:title" content="Δήμητρα Καραφυλλάκη, Διαιτολόγος-Διατροφολόγος MSc">
   <meta property="og:description" content="Εξατομικευμένη διατροφική καθοδήγηση στη Θεσσαλονίκη, χωρίς αυστηρές δίαιτες.">
-  <meta property="og:image" content="/assets/og.png">
+  <meta property="og:image" content="https://dimitra-karafyllaki.vercel.app/assets/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@300..700&display=swap" rel="stylesheet">
@@ -22,10 +22,11 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "MedicalBusiness",
+    "@type": "MedicalClinic",
     "name": "Καραφυλλάκη Δήμητρα, Διαιτολόγος-Διατροφολόγος, MSc",
-    "medicalSpecialty": "DietNutrition",
-    "image": "/assets/logo.png",
+    "medicalSpecialty": { "@id": "https://schema.org/DietNutrition" },
+    "image": "https://dimitra-karafyllaki.vercel.app/assets/logo.png",
+    "url": "https://dimitra-karafyllaki.vercel.app/",
     "telephone": "+302310309327",
     "address": {
       "@type": "PostalAddress",
@@ -71,7 +72,7 @@
           <a class="btn" href="tel:+302310309327">Κλείσε ραντεβού: 231 030 9327</a>
           <a class="btn btn-quiet" href="#contact">Δες πού θα με βρεις</a>
         </div>
-        <p class="status" data-open-status aria-live="polite"></p>
+        <p class="status" data-open-status></p>
       </div>
       <figure class="hero-logo">
         <img src="/assets/logo.png" alt="Λογότυπο: Dimitra Karafyllaki, Dietitian - Nutritionist" width="1200" height="1227">
@@ -161,7 +162,7 @@
         <h2 id="reviews-title">Τι λένε όσοι ήρθαν</h2>
         <p class="rating"><span class="rating-num">5,0</span> στο Google, από 11 κριτικές</p>
       </div>
-      <div class="carousel" aria-roledescription="carousel" aria-label="Κριτικές από το Google">
+      <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Κριτικές από το Google">
         <figure class="quote" data-review>
           <blockquote>Μαζί της δεν νιώθεις ότι κάνεις κάποια αυστηρή δίαιτα, αλλά ότι σιγά σιγά αλλάζεις τον τρόπο που τρως προς το καλύτερο. Είναι επίσης πολύ πρόσχαρη και ζεστή σαν άνθρωπος και σε κάνει να νιώθεις άνετα από την πρώτη στιγμή.</blockquote>
           <figcaption>Loizos Theodorou</figcaption>
