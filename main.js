@@ -215,7 +215,7 @@ if (quiz) {
   // short pause; keyboard users move with "Επόμενο" or Enter, so arrow keys
   // can browse the options without jumping ahead.
   let timer = 0;
-  let pointerPick = false;
+  let pointerAt = 0; // time of the last pointer press on an option; keys reset it
   const answered = (i) => Boolean($("input:checked", steps[i]));
   const advance = (from) => {
     clearTimeout(timer);
@@ -223,17 +223,20 @@ if (quiz) {
     from < steps.length - 1 ? show(from + 1) : finish();
   };
   const syncNext = () => (next.disabled = !answered(step));
-  form.addEventListener("pointerdown", () => (pointerPick = true));
+  form.addEventListener("pointerdown", (e) => { pointerAt = e.target.closest("label") ? performance.now() : 0; });
   form.addEventListener("change", (e) => {
     if (e.target.type !== "radio") return;
     syncNext();
-    if (!pointerPick) return;
-    pointerPick = false;
+    // Only a change that directly follows a pointer press on an option advances.
+    const fromPointer = performance.now() - pointerAt < 800;
+    pointerAt = 0;
+    if (!fromPointer) return;
     const from = step;
     clearTimeout(timer);
     timer = setTimeout(() => advance(from), reduced ? 0 : 280);
   });
   form.addEventListener("keydown", (e) => {
+    pointerAt = 0;
     if (e.key === "Enter" && e.target.type === "radio") { e.preventDefault(); advance(step); }
   });
   next.addEventListener("click", () => advance(step));

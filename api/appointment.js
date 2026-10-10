@@ -21,10 +21,11 @@ const hits = new Map();
 function limited(ip) {
   const now = Date.now();
   const recent = (hits.get(ip) || []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= LIMIT) { hits.set(ip, recent); return true; } // rejected hits are not recorded
+  if (hits.size >= 5000) hits.clear(); // bound memory across IPs
   recent.push(now);
   hits.set(ip, recent);
-  if (hits.size > 5000) hits.clear();
-  return recent.length > LIMIT;
+  return false;
 }
 
 // Strings only, within the limit, no control characters (no header or line injection).
