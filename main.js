@@ -96,22 +96,26 @@ const revealObserver = new IntersectionObserver((entries) => entries.forEach((e)
   if (!e.isIntersecting) return;
   e.target.classList.add("in");
   revealObserver.unobserve(e.target);
-}), { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+}), { rootMargin: "0px 0px 15% 0px" });
 $$("[data-reveal]").forEach((el) => revealObserver.observe(el));
 
-// ---- Hero shapes drift at different depths while scrolling ----
+// ---- Hero: shapes and logo drift and turn with the scroll ----
+// Direct transforms on four elements: no layout, no style recalculation of the subtree.
 const art = $("[data-parallax]");
 if (art && !reduced) {
-  $$("[data-depth]", art).forEach((el) => el.style.setProperty("--d", el.dataset.depth));
+  const parts = $$("[data-depth]", art).map((el) => ({ el, d: Number(el.dataset.depth), turn: Number(el.dataset.turn || 0) }));
+  const limit = innerHeight * 1.2;
   let ticking = false;
-  addEventListener("scroll", () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      if (scrollY < innerHeight * 1.2) art.style.setProperty("--sy", scrollY.toFixed(1));
-      ticking = false;
-    });
-  }, { passive: true });
+  let settled = false; // true once the parts rest at the limit position
+  const apply = () => {
+    ticking = false;
+    const y = Math.min(scrollY, limit);
+    if (y === limit && settled) return;
+    settled = y === limit;
+    for (const { el, d, turn } of parts) el.style.transform = `translate3d(0, ${(y * d).toFixed(1)}px, 0) rotate(${(y * turn).toFixed(2)}deg)`;
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(apply); } }, { passive: true });
+  apply();
 }
 
 // ---- Tabs helper (WAI-ARIA, arrow keys + Home/End) ----
@@ -211,39 +215,22 @@ if (quiz) {
     result.hidden = false;
     result.focus();
   };
-  // Advance only from the current step, once. A pointer pick advances after a
-  // short pause; keyboard users move with "Επόμενο" or Enter, so arrow keys
-  // can browse the options without jumping ahead.
-  let timer = 0;
-  let pointerAt = 0; // time of the last pointer press on an option; keys reset it
+  // Picking an answer only enables "Επόμενο"; Enter on an option also moves on.
   const answered = (i) => Boolean($("input:checked", steps[i]));
-  const advance = (from) => {
-    clearTimeout(timer);
-    if (from !== step || !answered(from)) return;
-    from < steps.length - 1 ? show(from + 1) : finish();
+  const advance = () => {
+    if (!answered(step)) return;
+    step < steps.length - 1 ? show(step + 1) : finish();
   };
-  const syncNext = () => (next.disabled = !answered(step));
-  form.addEventListener("pointerdown", (e) => { pointerAt = e.target.closest("label") ? performance.now() : 0; });
   form.addEventListener("change", (e) => {
-    if (e.target.type !== "radio") return;
-    syncNext();
-    // Only a change that directly follows a pointer press on an option advances.
-    const fromPointer = performance.now() - pointerAt < 800;
-    pointerAt = 0;
-    if (!fromPointer) return;
-    const from = step;
-    clearTimeout(timer);
-    timer = setTimeout(() => advance(from), reduced ? 0 : 280);
+    if (e.target.type === "radio") next.disabled = !answered(step);
   });
   form.addEventListener("keydown", (e) => {
-    pointerAt = 0;
-    if (e.key === "Enter" && e.target.type === "radio") { e.preventDefault(); advance(step); }
+    if (e.key === "Enter" && e.target.type === "radio") { e.preventDefault(); advance(); }
   });
-  next.addEventListener("click", () => advance(step));
-  back.addEventListener("click", () => { clearTimeout(timer); show(Math.max(0, step - 1)); });
+  next.addEventListener("click", advance);
+  back.addEventListener("click", () => show(Math.max(0, step - 1)));
   $("[data-r-book]", result).addEventListener("click", (e) => pickTopic(e.currentTarget.dataset.pick));
   $("[data-quiz-restart]", result).addEventListener("click", () => {
-    clearTimeout(timer);
     form.reset();
     result.hidden = true;
     form.hidden = false;
@@ -396,17 +383,5 @@ if (book) {
     }
   });
 }
-
-// ---- Map loads from Google only on request ----
-const mapLoad = $("[data-map-load]");
-mapLoad?.addEventListener("click", () => {
-  const map = $("[data-map]");
-  const iframe = document.createElement("iframe");
-  iframe.title = "Χάρτης: Ι. Πολέμη 13, Θεσσαλονίκη";
-  iframe.referrerPolicy = "no-referrer-when-downgrade";
-  iframe.src = "https://www.google.com/maps?q=" + encodeURIComponent("Καραφυλλάκη Δήμητρα Διαιτολόγος, Ι. Πολέμη 13, Θεσσαλονίκη") + "&z=16&hl=el&output=embed";
-  map.replaceChildren(iframe);
-  iframe.focus();
-});
 
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));

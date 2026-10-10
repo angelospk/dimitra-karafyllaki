@@ -17,6 +17,7 @@
   <meta property="og:title" content="Δήμητρα Καραφυλλάκη, Διαιτολόγος-Διατροφολόγος MSc">
   <meta property="og:description" content="Εξατομικευμένη διατροφική καθοδήγηση στη Θεσσαλονίκη, χωρίς αυστηρές δίαιτες.">
   <meta property="og:image" content="https://dimitra-karafyllaki.vercel.app/assets/og.png">
+  <link rel="preload" href="/assets/mark-md.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="/assets/fonts/display-greek.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/text-greek.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css">
@@ -52,7 +53,7 @@
 
   <header class="hdr" data-hdr>
     <a class="brand" href="#top" aria-label="Δήμητρα Καραφυλλάκη, αρχή σελίδας">
-      <img src="/assets/mark.webp" alt="" width="26" height="32">
+      <img src="/assets/mark-sm.webp" alt="" width="26" height="32">
       <span>Δήμητρα Καραφυλλάκη</span>
     </a>
     <nav class="nav" aria-label="Κύριο μενού">
@@ -85,7 +86,7 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-art" aria-hidden="true" data-parallax>
         <div class="hero-block"></div>
-        <svg class="shape shape-rodi" viewBox="0 0 200 210" data-depth="0.18">
+        <svg class="shape shape-rodi" viewBox="0 0 200 210" data-depth="0.18" data-turn="-0.05">
           <path d="M84 22 L92 2 L100 18 L108 2 L116 22 Z" fill="#C8304A"/>
           <circle cx="100" cy="115" r="92" fill="#C8304A"/>
           <g fill="#EEEAE3" opacity=".9">
@@ -95,20 +96,20 @@
             <ellipse cx="98" cy="150" rx="6" ry="8"/><ellipse cx="64" cy="130" rx="6" ry="8"/>
           </g>
         </svg>
-        <svg class="shape shape-leaf" viewBox="0 0 120 220" data-depth="-0.12">
+        <svg class="shape shape-leaf" viewBox="0 0 120 220" data-depth="-0.12" data-turn="0.06">
           <path d="M60 4 C112 60 112 160 60 216 C8 160 8 60 60 4 Z" fill="#EEEAE3"/>
           <path d="M60 30 V200" stroke="#15304A" stroke-width="3" fill="none"/>
         </svg>
-        <div class="hero-disc" data-depth="0.06">
-          <img src="/assets/mark.webp" alt="" width="560" height="693" fetchpriority="high">
+        <div class="hero-disc" data-depth="0.1" data-turn="0.03">
+          <img src="/assets/mark-md.webp" alt="" width="480" height="594" fetchpriority="high">
         </div>
-        <svg class="shape shape-ring" viewBox="0 0 200 200" data-depth="-0.2">
+        <svg class="shape shape-ring" viewBox="0 0 200 200" data-depth="-0.2" data-turn="0.12">
           <circle cx="100" cy="100" r="80" fill="none" stroke="#ABBAC6" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round"/>
         </svg>
       </div>
 
       <div class="hero-copy">
-        <p class="hero-role">Διαιτολόγος-Διατροφολόγος, MSc<br>στη Θεσσαλονίκη</p>
+        <p class="hero-role">Διαιτολόγος-Διατροφολόγος, MSc</p>
         <h1 id="hero-title" class="hero-title">
           <span class="line"><span>Τρώμε</span></span>
           <span class="line"><span>καλύτερα,</span></span>
@@ -133,7 +134,7 @@
       <figure class="about-photo" data-reveal>
         <div class="arch">
           <!-- TODO: επαγγελματική φωτογραφία της Δήμητρας (κάθετη, περίπου 4:5) -->
-          <img src="/assets/mark.webp" alt="" width="560" height="693" loading="lazy">
+          <img src="/assets/mark-md.webp" alt="" width="480" height="594" loading="lazy">
         </div>
         <figcaption class="ph">Εδώ θα μπει η φωτογραφία της Δήμητρας</figcaption>
       </figure>
@@ -461,19 +462,16 @@
           </tbody>
         </table>
       </div>
-      <div class="map" data-map>
-        <div class="map-facade">
-          <svg class="map-pin" viewBox="0 0 40 52" aria-hidden="true"><path d="M20 0C9 0 0 9 0 20c0 15 20 32 20 32s20-17 20-32C40 9 31 0 20 0z" fill="#C8304A"/><circle cx="20" cy="20" r="7" fill="#EEEAE3"/></svg>
-          <p>Ο χάρτης φορτώνει από το Google μόνο αν τον ζητήσεις.</p>
-          <button type="button" class="btn btn-ink" data-map-load>Δείξε τον χάρτη</button>
-        </div>
+      <div class="map">
+        <iframe title="Χάρτης: Ι. Πολέμη 13, Θεσσαλονίκη" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=%CE%9A%CE%B1%CF%81%CE%B1%CF%86%CF%85%CE%BB%CE%BB%CE%AC%CE%BA%CE%B7%20%CE%94%CE%AE%CE%BC%CE%B7%CF%84%CF%81%CE%B1%20%CE%94%CE%B9%CE%B1%CE%B9%CF%84%CE%BF%CE%BB%CF%8C%CE%B3%CE%BF%CF%82%2C%20%CE%99.%20%CE%A0%CE%BF%CE%BB%CE%AD%CE%BC%CE%B7%2013%2C%20%CE%98%CE%B5%CF%83%CF%83%CE%B1%CE%BB%CE%BF%CE%BD%CE%AF%CE%BA%CE%B7&amp;z=16&amp;hl=el&amp;output=embed"></iframe>
       </div>
     </section>
   </main>
 
   <footer class="ftr">
     <div class="ftr-top">
-      <img src="/assets/logo.webp" alt="Dimitra Karafyllaki, Dietitian - Nutritionist" width="120" height="123" loading="lazy">
+      <img src="/assets/logo-sm.webp" alt="Dimitra Karafyllaki, Dietitian - Nutritionist" width="120" height="123" loading="lazy">
       <p class="ftr-line">Τρώμε καλύτερα, σιγά σιγά.</p>
     </div>
     <div class="ftr-cols">
@@ -483,7 +481,7 @@
       </div>
       <div id="aporrito">
         <p class="ftr-h">Απόρρητο</p>
-        <p>Η σελίδα δεν βάζει δικά της cookies και δεν έχει εργαλεία παρακολούθησης. Ο χάρτης φορτώνει από το Google μόνο αν τον ζητήσεις, και τότε ισχύει η πολιτική απορρήτου της Google. Αν στείλεις αίτημα ραντεβού, το όνομα, το τηλέφωνο, το θέμα και η ώρα που σε βολεύει φτάνουν στο email του γραφείου μέσω της υπηρεσίας Resend, μόνο για να σε καλέσουμε. Η σελίδα δεν τα αποθηκεύει.</p>
+        <p>Η σελίδα δεν βάζει δικά της cookies και δεν έχει εργαλεία παρακολούθησης. Ο χάρτης της ενότητας Επικοινωνία φορτώνει από το Google αυτόματα, καθώς κατεβαίνεις στη σελίδα, και τότε ισχύει η πολιτική απορρήτου της Google. Αν στείλεις αίτημα ραντεβού, το όνομα, το τηλέφωνο, το θέμα και η ώρα που σε βολεύει φτάνουν στο email του γραφείου μέσω της υπηρεσίας Resend, μόνο για να σε καλέσουμε. Η σελίδα δεν τα αποθηκεύει.</p>
       </div>
     </div>
     <p class="ftr-copy">© <span data-year>2026</span> Δήμητρα Καραφυλλάκη, Διαιτολόγος-Διατροφολόγος, MSc</p>
