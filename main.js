@@ -59,7 +59,7 @@ addEventListener("scroll", () => {
   const y = scrollY;
   hdr.classList.toggle("scrolled", y > 8);
   if (!document.body.classList.contains("menu-open")) {
-    if (y > 400 && y > lastY + 6) hdr.classList.add("hide");
+    if (y > 400 && y > lastY + 6 && !hdr.matches(":focus-within")) hdr.classList.add("hide");
     else if (y < lastY - 6) hdr.classList.remove("hide");
   }
   lastY = y;
@@ -82,6 +82,8 @@ function setMenu(open) {
   burger.setAttribute("aria-expanded", String(open));
   mnav.hidden = !open;
   document.body.classList.toggle("menu-open", open);
+  // Keep keyboard focus inside the overlay: everything behind it is inert.
+  $$("main, footer, .skip").forEach((el) => (el.inert = open));
   if (open) hdr.classList.remove("hide");
 }
 burger.addEventListener("click", () => setMenu(mnav.hidden));
@@ -184,12 +186,15 @@ if (quiz) {
   const steps = $$("[data-q]", quiz);
   const bar = $("[data-quiz-bar]", quiz);
   const back = $("[data-quiz-back]", quiz);
+  const next = $("[data-quiz-next]", quiz);
   const result = $("[data-quiz-result]", quiz);
   let step = 0;
   const show = (i, focus = true) => {
     step = i;
     steps.forEach((s, j) => (s.hidden = j !== i));
     back.hidden = i === 0;
+    next.disabled = !$("input:checked", steps[i]);
+    next.textContent = i === steps.length - 1 ? "Δες το αποτέλεσμα" : "Επόμενο";
     bar.style.width = `${(i / steps.length) * 100}%`;
     if (focus) $("input", steps[i])?.focus({ preventScroll: true });
   };
@@ -206,14 +211,36 @@ if (quiz) {
     result.hidden = false;
     result.focus();
   };
+  // Advance only from the current step, once. A pointer pick advances after a
+  // short pause; keyboard users move with "Επόμενο" or Enter, so arrow keys
+  // can browse the options without jumping ahead.
+  let timer = 0;
+  let pointerPick = false;
+  const answered = (i) => Boolean($("input:checked", steps[i]));
+  const advance = (from) => {
+    clearTimeout(timer);
+    if (from !== step || !answered(from)) return;
+    from < steps.length - 1 ? show(from + 1) : finish();
+  };
+  const syncNext = () => (next.disabled = !answered(step));
+  form.addEventListener("pointerdown", () => (pointerPick = true));
   form.addEventListener("change", (e) => {
     if (e.target.type !== "radio") return;
-    // Short pause so the choice is visible before the next question.
-    setTimeout(() => (step < steps.length - 1 ? show(step + 1) : finish()), reduced ? 0 : 280);
+    syncNext();
+    if (!pointerPick) return;
+    pointerPick = false;
+    const from = step;
+    clearTimeout(timer);
+    timer = setTimeout(() => advance(from), reduced ? 0 : 280);
   });
-  back.addEventListener("click", () => show(Math.max(0, step - 1)));
+  form.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.type === "radio") { e.preventDefault(); advance(step); }
+  });
+  next.addEventListener("click", () => advance(step));
+  back.addEventListener("click", () => { clearTimeout(timer); show(Math.max(0, step - 1)); });
   $("[data-r-book]", result).addEventListener("click", (e) => pickTopic(e.currentTarget.dataset.pick));
   $("[data-quiz-restart]", result).addEventListener("click", () => {
+    clearTimeout(timer);
     form.reset();
     result.hidden = true;
     form.hidden = false;
@@ -283,13 +310,13 @@ if (myths) {
     score.textContent = `Σωστές απαντήσεις: ${right} από ${done}`;
     actions.hidden = true;
     answer.hidden = false;
-    next.focus();
+    answer.focus();
   }));
   next.addEventListener("click", () => {
     if (i === MYTHS.length - 1) { i = 0; right = 0; done = 0; score.textContent = ""; }
     else i++;
     render();
-    $("[data-guess]", myths).focus();
+    claim.focus();
   });
   render();
 }
@@ -376,6 +403,7 @@ mapLoad?.addEventListener("click", () => {
   iframe.referrerPolicy = "no-referrer-when-downgrade";
   iframe.src = "https://www.google.com/maps?q=" + encodeURIComponent("Καραφυλλάκη Δήμητρα Διαιτολόγος, Ι. Πολέμη 13, Θεσσαλονίκη") + "&z=16&hl=el&output=embed";
   map.replaceChildren(iframe);
+  iframe.focus();
 });
 
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));

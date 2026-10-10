@@ -68,6 +68,7 @@ a { color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: .22
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--rodi); outline-offset: 3px; border-radius: 6px; }
 ::selection { background: var(--rodi); color: #fff; }
+[hidden] { display: none !important; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 1rem; top: -5rem; z-index: 50; background: var(--ink); color: var(--stone); padding: .7rem 1.1rem; border-radius: 10px; }
 .skip:focus { top: 1rem; }
@@ -263,7 +264,9 @@ body.menu-open { overflow: hidden; }
 .q input:checked + span { border-color: var(--marine); background: color-mix(in srgb, var(--fjord) 30%, #fff); }
 .q input:checked + span::before { background: var(--rodi); border-color: var(--rodi); }
 .q input:focus-visible + span { outline: 3px solid var(--rodi); outline-offset: 2px; }
-.quiz-nav { margin-top: 1.25rem; min-height: 3rem; }
+.quiz-nav { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .75rem; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:disabled::before { display: none; }
 .quiz-form[hidden], .quiz-result[hidden] { display: none; }
 .quiz-result:not([hidden]) { animation: drop .5s var(--ease); }
 .quiz-result:focus { outline: none; }
@@ -287,10 +290,11 @@ body.menu-open { overflow: hidden; }
 .plate svg { overflow: visible; }
 .seg { cursor: pointer; transform-box: fill-box; transform-origin: center; transition: transform .35s var(--ease), opacity .3s; outline: none; }
 .seg:hover { transform: scale(1.03); }
-.seg[aria-pressed="false"] { opacity: .55; }
-.seg-oil, .seg-oil[aria-pressed="false"] { opacity: 1; stroke: var(--stone); stroke-width: 4; }
+.seg[aria-pressed="true"] { transform: scale(1.05); stroke: var(--ink); stroke-width: 4; }
+.seg-oil { stroke: var(--stone); stroke-width: 4; }
 .seg-oil[aria-pressed="true"] { stroke: var(--rodi); stroke-width: 6; }
-.seg:focus-visible { stroke: var(--ink); stroke-width: 4; }
+.seg:focus-visible { stroke: var(--ink); stroke-width: 6; stroke-dasharray: 8 5; }
+.seg-oil:focus-visible { stroke: #fff; }
 .plate-label { font-family: var(--display); font-weight: 800; font-size: 26px; fill: var(--ink); pointer-events: none; text-anchor: middle; }
 .plate-label-light { fill: #fff; }
 
@@ -303,6 +307,8 @@ body.menu-open { overflow: hidden; }
 }
 .myth-card::after { content: ""; position: absolute; width: 14rem; aspect-ratio: 1; right: -5rem; bottom: -6rem; border-radius: 50%; border: 2px dashed color-mix(in srgb, var(--fjord) 60%, transparent); pointer-events: none; }
 .myth-count { color: var(--fjord); font-size: .95rem; font-variant-numeric: tabular-nums; }
+.myth-claim:focus, .myth-answer:focus { outline: none; }
+.myth-claim:focus-visible, .myth-answer:focus-visible { outline: 2px dashed var(--fjord); outline-offset: 6px; }
 .myth-claim { margin-top: 1rem; max-width: 18em; font-family: var(--display); font-weight: 750; font-size: var(--step-3); line-height: .98; color: #fff; }
 .myth-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
 .myth-actions[hidden] { display: none; }

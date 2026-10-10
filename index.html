@@ -250,6 +250,7 @@
             <label><input type="radio" name="hard" value="start"><span>Δεν ξέρω από πού να ξεκινήσω</span></label>
           </fieldset>
           <div class="quiz-nav">
+            <button type="button" class="btn btn-ink" data-quiz-next disabled>Επόμενο</button>
             <button type="button" class="btn btn-line" data-quiz-back hidden>Πίσω</button>
           </div>
         </form>
@@ -307,12 +308,12 @@
         </div>
         <div class="myth-card" data-reveal>
           <p class="myth-count" data-myth-count>1 / 6</p>
-          <p class="myth-claim" data-myth-claim></p>
+          <p class="myth-claim" data-myth-claim tabindex="-1"></p>
           <div class="myth-actions" data-myth-actions>
             <button type="button" class="btn btn-line" data-guess="myth">Μύθος</button>
             <button type="button" class="btn btn-line" data-guess="truth">Αλήθεια</button>
           </div>
-          <div class="myth-answer" data-myth-answer hidden>
+          <div class="myth-answer" data-myth-answer hidden tabindex="-1">
             <p class="myth-verdict" data-myth-verdict></p>
             <p data-myth-why></p>
             <button type="button" class="btn btn-ink" data-myth-next>Επόμενη φράση</button>
@@ -482,7 +483,7 @@
       </div>
       <div id="aporrito">
         <p class="ftr-h">Απόρρητο</p>
-        <p>Η σελίδα δεν χρησιμοποιεί cookies ούτε εργαλεία παρακολούθησης. Η φόρμα στέλνει μόνο όνομα, τηλέφωνο, θέμα και ώρα επικοινωνίας στο γραφείο, για να σε καλέσουμε, και δεν τα αποθηκεύει στη σελίδα. Ο χάρτης του Google φορτώνει μόνο αν τον ζητήσεις.</p>
+        <p>Η σελίδα δεν βάζει δικά της cookies και δεν έχει εργαλεία παρακολούθησης. Ο χάρτης φορτώνει από το Google μόνο αν τον ζητήσεις, και τότε ισχύει η πολιτική απορρήτου της Google. Αν στείλεις αίτημα ραντεβού, το όνομα, το τηλέφωνο, το θέμα και η ώρα που σε βολεύει φτάνουν στο email του γραφείου μέσω της υπηρεσίας Resend, μόνο για να σε καλέσουμε. Η σελίδα δεν τα αποθηκεύει.</p>
       </div>
     </div>
     <p class="ftr-copy">© <span data-year>2026</span> Δήμητρα Καραφυλλάκη, Διαιτολόγος-Διατροφολόγος, MSc</p>
